@@ -14,38 +14,20 @@ function App() {
 
     const addNode = (name: string) => {
         setCurrentText("");
+        const newNode: node = { id: Date.now(), name, children: [] };
+
         if (!selectedNode) {
-            setTree([...tree, { id: Date.now(), name, parent: null, children: [] }]);
+            setTree([...tree, newNode]);
         } else {
-            const newNode: node = { id: Date.now(), name, parent: selectedNode, children: [] };
-
-            const updateTree = (nodes: node[]): node[] => {
-                return nodes.map(n => {
-                    if (n.id === selectedNode.id) {
-                        return { ...n, children: [...n.children, newNode] };
-                    }
-                    return { ...n, children: updateTree(n.children) };
-                });
-            };
-
-            setTree(updateTree(tree));
+            selectedNode.children.push(newNode);
+            setTree([...tree]);
         }
     };
 
     const editNode = (newName: string) => {
         if (!selectedNode) return;
-
-        const updateTree = (nodes: node[]): node[] => {
-            return nodes.map(n => {
-                if (n.id === selectedNode.id) {
-                    return { ...n, name: newName };
-                }
-                return { ...n, children: updateTree(n.children) };
-            });
-        };
-
-        setTree(updateTree(tree));
-        setSelectedNode(prev => (prev ? { ...prev, name: newName } : null));
+        selectedNode.name = newName;
+        setTree([...tree]);
     };
 
     const deleteNode = () => {
@@ -63,6 +45,7 @@ function App() {
 
     const resetNode = () => {
         console.log(JSON.stringify(tree, null, 2));
+
         setTree([])
         setSelectedNode(null);
     };
@@ -114,7 +97,7 @@ function App() {
                 onClose={closeAddModal}
                 onSave={addNode}
                 currentText={""}
-                title="Введите название нового узла"
+                title="Добавление узла"
             />
 
             <Modal
