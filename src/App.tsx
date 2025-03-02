@@ -86,7 +86,7 @@ function App() {
                     <TreeNode key={node.id} node={node} onSelect={toggleSelectedNode} selectedNode={selectedNode} />
                 ))}
             </div>
-            <div className="btn-toolbar d-flex justify-content-center" role="toolbar">
+            <div className="btn-toolbar d-flex gap-1 justify-content-center" role="toolbar">
                 <button type="button" className="btn btn-success" style={{ width: "10%" }} onClick={openAddModal}>Add</button>
                 <button type="button" className="btn btn-secondary" style={{ width: "10%" }} onClick={openEditModal} disabled={!selectedNode}>Edit</button>
                 <button type="button" className="btn btn-warning" style={{ width: "10%" }} onClick={deleteNode} disabled={!selectedNode}>Delete</button>
